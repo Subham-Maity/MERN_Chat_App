@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+interface Chat {
+  _id: string;
+  chatName: string;
+  // ... other properties of the chat data
+}
 const ChatPage = () => {
-  const [chats, setChats] = React.useState([]);
+  const [chats, setChats] = useState<Chat[]>([]);
   const fetchChats = async () => {
-    // const data = await axios.get("http://localhost:5000/api/chats");
-    const { data } = await axios.get("http://localhost:5000/api/chats"); //destructure data from response
+    const { data } = await axios.get("http://localhost:5000/api/chats");
     setChats(data);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchChats();
   }, []);
 
   return (
     <div>
-      {chats.map((chats) => (
-        <div key={chats._id}>{chats.chatName}</div>
+      {chats.map((chat) => (
+        <div key={chat._id}>{chat.chatName}</div>
       ))}
     </div>
   );
