@@ -1,13 +1,15 @@
 import React from "react";
 import {
-  Container,
   Box,
+  Container,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import Login from "@/components/Authentication/Login";
+import Signup from "@/components/Authentication/Signup";
 
 const Homepage = () => {
   return (
@@ -35,7 +37,7 @@ const Homepage = () => {
         <Tabs isFitted variant="soft-rounded">
           <TabList mb="4">
             <Tab
-              className="text-white rounded-lg border border-gray-700 p-2 m-2 w-full text-center transition-colors duration-300 hover:bg-gray-700 hover:border-gray-800 hover:text-gray-200"
+              className="rounded-lg border border-gray-700 p-2 m-2 w-full text-center transition-colors duration-300 hover:bg-gray-700 hover:border-gray-800 hover:text-gray-200"
               _focus={{ outline: "none", boxShadow: "outline" }}
             >
               Login
@@ -47,6 +49,14 @@ const Homepage = () => {
               Sign Up
             </Tab>
           </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Login />
+            </TabPanel>
+            <TabPanel>
+              <Signup />
+            </TabPanel>
+          </TabPanels>
         </Tabs>
       </Box>
     </Container>
