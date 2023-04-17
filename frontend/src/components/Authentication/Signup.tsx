@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/button";
 import { VStack } from "@chakra-ui/layout";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { InputGroup, InputRightElement } from "@chakra-ui/input";
@@ -37,7 +38,16 @@ const Signup = () => {
 
       <div className={styles.inputContainer}>
         <FormControl id="email" isRequired>
-          <FormLabel className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2">
+          <FormLabel
+            style={{
+              opacity: 0.6,
+              fontFamily: "Helvetica Neue",
+              fontSize: 16,
+              fontWeight: "bold",
+              letterSpacing: "0.5px",
+            }}
+            className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
+          >
             Email Address
           </FormLabel>
         </FormControl>
@@ -54,7 +64,16 @@ const Signup = () => {
       <div className="mt-18"></div>
       <div className={styles.inputContainer}>
         <FormControl id="password" isRequired>
-          <FormLabel className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2">
+          <FormLabel
+            style={{
+              opacity: 0.6,
+              fontFamily: "Helvetica Neue",
+              fontSize: 16,
+              fontWeight: "bold",
+              letterSpacing: "0.5px",
+            }}
+            className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
+          >
             Password
           </FormLabel>
         </FormControl>
@@ -68,9 +87,19 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <button className="text-white" onClick={handleClick}>
+            <Button
+              className="text-white input-group-button"
+              onClick={handleClick}
+              variant="ghost"
+              fontSize="sm"
+              fontFamily="sans-serif"
+              colorScheme="gray"
+              _hover={{ bg: "gray.700" }}
+              bg="transparent"
+              textColor={show ? "gray.300" : "gray.500"}
+            >
               {show ? "Hide" : "Show"}
-            </button>
+            </Button>
           </InputRightElement>
         </InputGroup>
       </div>
@@ -78,7 +107,16 @@ const Signup = () => {
       <div className="mt-18"></div>
       <div className={styles.inputContainer}>
         <FormControl id="password" isRequired>
-          <FormLabel className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2">
+          <FormLabel
+            style={{
+              opacity: 0.6,
+              fontFamily: "Helvetica Neue",
+              fontSize: 16,
+              fontWeight: "bold",
+              letterSpacing: "0.5px",
+            }}
+            className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
+          >
             Confirm Password
           </FormLabel>
         </FormControl>
@@ -92,9 +130,19 @@ const Signup = () => {
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <button className="text-white" onClick={handleClick}>
+            <Button
+              className="text-white input-group-button"
+              onClick={handleClick}
+              variant="ghost"
+              fontSize="sm"
+              fontFamily="sans-serif"
+              colorScheme="gray"
+              _hover={{ bg: "gray.700" }}
+              bg="transparent"
+              textColor={show ? "gray.300" : "gray.500"}
+            >
               {show ? "Hide" : "Show"}
-            </button>
+            </Button>
           </InputRightElement>
         </InputGroup>
       </div>

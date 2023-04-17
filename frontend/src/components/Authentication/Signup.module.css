@@ -6,8 +6,8 @@
 }
 
 #inputField {
-    width: 460px; /* increase the width of the input field */
-    max-width: 100%; /* set max-width to 100% for responsiveness */
+    width: 460px;
+    max-width: 100%;
     height: 45px;
     border: none;
     outline: none;
@@ -20,13 +20,13 @@
     border-radius: 10px;
     font-weight: 500;
     caret-color: rgb(155, 78, 255);
-    transition-duration: .3s;
+    transition: width 0.3s ease; /* add transition property */
     font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 #inputField:focus {
-    width: 480px; /* increase the width of the input field */
-    max-width: 100%; /* set max-width to 100% for responsiveness */
+    width: 480px;
+    max-width: 100%;
     height: 45px;
     border: none;
     outline: none;
@@ -41,8 +41,18 @@
     color: #c17d97;
     font-weight: 500;
     caret-color: rgb(155, 78, 255);
-    transition-duration: .3s;
+    transition: width 0.3s ease; /* add transition property */
     font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (max-width: 767px) {
+    #inputField {
+        width: 100%;
+    }
+
+    #inputField:focus {
+        width: 100%;
+    }
 }
 
 .userIcon {
@@ -87,3 +97,5 @@
     background-color: #37344f;
     transition-duration: .3s;
 }
+
+
