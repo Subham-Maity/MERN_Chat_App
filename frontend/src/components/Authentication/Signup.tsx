@@ -13,6 +13,8 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [pic, setPic] = useState();
   const handleClick = () => setShow(!show);
+
+  const postDetails = (pics: FileList | null) => {}; //We will change it future ❗
   return (
     <VStack spacing="5px" color="gray.700">
       {/*//Name of the user*/}
@@ -144,6 +146,39 @@ const Signup = () => {
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
+        </InputGroup>
+      </div>
+      {/*//Profile picture of the user*/}
+      <div className="mt-18"></div>
+      <div className={styles.inputContainer}>
+        <FormControl id="pic" isRequired>
+          <FormLabel
+            style={{
+              opacity: 0.6,
+              fontFamily: "Helvetica Neue",
+              fontSize: 16,
+              fontWeight: "bold",
+              letterSpacing: "0.5px",
+            }}
+            className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
+          >
+            Upload Profile Picture 📸
+          </FormLabel>
+        </FormControl>
+        <InputGroup>
+          <input
+            id={styles.inputField}
+            type="file"
+            accept="image/*"
+            className={`${styles.input} input`}
+            placeholder="Upload Profile Pictur🗝️"
+            //We will change it future ❗
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                postDetails(e.target.files);
+              }
+            }}
+          />
         </InputGroup>
       </div>
     </VStack>
