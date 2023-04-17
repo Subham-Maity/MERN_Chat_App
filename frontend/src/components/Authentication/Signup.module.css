@@ -1,59 +1,89 @@
-.container {
+.inputContainer {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 7px;
-    position: relative;
+    gap: 10px;
 }
 
-.container .label {
-    font-size: 15px;
-    padding-left: 10px;
-    position: absolute;
-    top: 13px;
-    transition: 0.3s;
-    pointer-events: none;
-}
-
-.input {
-    width: 100%;
+#inputField {
+    width: 460px; /* increase the width of the input field */
+    max-width: 100%; /* set max-width to 100% for responsiveness */
     height: 45px;
     border: none;
     outline: none;
     padding: 0px 7px;
-    border-radius: 6px;
-    color: #fff;
     font-size: 15px;
+    color: white;
     background-color: transparent;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 1),
     -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    font-weight: 500;
+    caret-color: rgb(155, 78, 255);
+    transition-duration: .3s;
+    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-.input:focus {
-    border: 2px solid transparent;
-    color: #fff;
+#inputField:focus {
+    width: 480px; /* increase the width of the input field */
+    max-width: 100%; /* set max-width to 100% for responsiveness */
+    height: 45px;
+    border: none;
+    outline: none;
+    padding: 0px 7px;
+    font-size: 15px;
+    background-color: transparent;
     box-shadow: 3px 3px 10px rgb(26, 42, 44),
     -1px -1px 6px rgba(255, 255, 255, 0.4),
     inset 3px 3px 10px rgba(0, 0, 0, 1),
     inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    color: #c17d97;
+    font-weight: 500;
+    caret-color: rgb(155, 78, 255);
+    transition-duration: .3s;
+    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
-.container .input:valid ~ .label,
-.container .input:focus ~ .label {
-    transition: 0.3s;
-    padding-left: 2px;
-    transform: translateY(-35px);
+.userIcon {
+    position: absolute;
+    fill: rgb(155, 78, 255);
+    width: 12px;
+    height: 12px;
+    top: -23px;
+    left: -15px;
+    opacity: 0;
+    transition: .2s linear;
 }
 
-.container .input:valid,
-.container .input:focus {
-    box-shadow: 3px 3px 10px rgb(23, 37, 46),
-    -1px -1px 6px rgba(255, 255, 255, 0.4),
-    inset 3px 3px 10px rgba(0, 0, 0, 1),
-    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+.usernameLabel {
+    position: absolute;
+    top: -25px;
+    left: 5px;
+    color: #b0afaf;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    transition: .2s linear;
+    opacity: 0;
 }
 
-@media only screen and (max-width: 768px) {
-    .input {
-        width: 100%;
-    }
+#inputField:focus ~ .usernameLabel,
+#inputField:valid ~ .usernameLabel {
+    transform: translateX(20px);
+    opacity: 1;
+    font-size: 12px;
+}
+
+#inputField:focus ~ .userIcon,
+#inputField:valid ~ .userIcon {
+    transform: translateX(20px);
+    opacity: 1;
+}
+
+#inputField:focus,
+#inputField:valid {
+    background-color: #37344f;
+    transition-duration: .3s;
 }
