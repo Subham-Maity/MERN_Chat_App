@@ -13,7 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [pic, setPic] = useState();
   const handleClick = () => setShow(!show);
-
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {};
   const postDetails = (pics: FileList | null) => {}; //We will change it future ❗
   return (
     <VStack spacing="5px" color="gray.700">
@@ -42,7 +42,7 @@ const Signup = () => {
         <FormControl id="email" isRequired>
           <FormLabel
             style={{
-              opacity: 0.6,
+              opacity: 0.2,
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
@@ -68,7 +68,7 @@ const Signup = () => {
         <FormControl id="password" isRequired>
           <FormLabel
             style={{
-              opacity: 0.6,
+              opacity: 0.2,
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
@@ -111,7 +111,7 @@ const Signup = () => {
         <FormControl id="password" isRequired>
           <FormLabel
             style={{
-              opacity: 0.6,
+              opacity: 0.2,
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
@@ -154,7 +154,7 @@ const Signup = () => {
         <FormControl id="pic" isRequired>
           <FormLabel
             style={{
-              opacity: 0.6,
+              opacity: 0.2,
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
@@ -181,6 +181,9 @@ const Signup = () => {
           />
         </InputGroup>
       </div>
+      <Button colorScheme="blue" width="100%" style={{ marginTop: 15 }}>
+        Sign Up
+      </Button>
     </VStack>
   );
 };
