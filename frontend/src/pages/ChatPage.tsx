@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 interface Chat {
   _id: string;
   chatName: string;
   // ... other properties of the chat data
 }
+
 const ChatPage = () => {
   const [chats, setChats] = useState<Chat[]>([]);
   const fetchChats = async () => {
