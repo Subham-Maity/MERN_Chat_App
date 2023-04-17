@@ -7,8 +7,8 @@ const Signup = () => {
   const [show, setShow] = useState(false); //data type as boolean
   const [name, setName] = useState<string>(""); //data type as string
   const [email, setEmail] = useState();
-  const [confirmpassword, setConfirmpassword] = useState();
-  const [password, setPassword] = useState();
+  const [confirmpassword, setConfirmpassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [pic, setPic] = useState();
   const handleClick = () => setShow(!show);
   return (
@@ -37,7 +37,29 @@ const Signup = () => {
             required
             className={`${styles.input} input`}
             placeholder="Enter your password"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <InputRightElement width="4.5rem">
+            <button className="text-white" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </button>
+          </InputRightElement>
+        </InputGroup>
+        <label className={styles.usernameLabel} htmlFor={styles.inputField}>
+          Password{" "}
+        </label>
+      </div>
+
+      <div className="mt-18"></div>
+      <div className={styles.inputContainer} id="password">
+        <InputGroup>
+          <input
+            id={styles.inputField}
+            type={show ? "text" : "password"}
+            required
+            className={`${styles.input} input`}
+            placeholder="Confirm your password"
+            onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
             <button className="text-white" onClick={handleClick}>
