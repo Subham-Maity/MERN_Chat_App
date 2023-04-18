@@ -23,7 +23,7 @@ const Signup = () => {
           id={styles.inputField}
           type="text"
           required
-          placeholder="What's should we call you? 🙂"
+          placeholder="What's should we call you? 😎"
           onChange={(e) => setName(e.target.value)}
         />
         <label className={styles.usernameLabel} htmlFor={styles.inputField}>
