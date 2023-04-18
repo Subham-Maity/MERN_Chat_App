@@ -8,6 +8,9 @@ dotenv.config();
 connectDB();
 const app = express();
 
+//Since we’re sending data from the frontend to the server, we need to parse it to JSON and specify its format.
+app.use(express.json());
+
 app.use(cors());
 
 app.get("/", (req, res) => {
