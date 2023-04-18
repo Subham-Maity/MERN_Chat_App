@@ -1,11 +1,14 @@
 const express = require("express");
 const chats = require("./data/data");
 const cors = require("cors");
+// Load the dotenv module before calling connectDB
 const dotenv = require("dotenv");
+dotenv.config();
 const app = express();
+const connectDB = require("./config/db");
 
 app.use(cors());
-dotenv.config();
+connectDB();
 
 app.get("/", (req, res) => {
   res.send("API is running...");

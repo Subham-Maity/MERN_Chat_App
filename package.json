@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/Subham-Maity/MERN_Chat_App#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^7.0.3",
+    "mongodb": "^5.2.0",
+    "mongoose": "^7.0.4",
     "nodemon": "^2.0.22"
   }
 }
