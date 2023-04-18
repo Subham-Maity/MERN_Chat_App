@@ -22,13 +22,13 @@ const Login = () => {
         <FormControl id="email" isRequired>
           <FormLabel
             style={{
-              opacity: 0.2,
+              opacity: 1,
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
               letterSpacing: "0.5px",
             }}
-            className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
+            className="text-gray-700"
           >
             Email Address
           </FormLabel>
