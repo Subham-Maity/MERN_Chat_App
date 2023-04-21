@@ -10,7 +10,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Please fill all the fields");
   }
 
-  const userExists = await user.findOne({ email });
+  const userExists = await User.findOne({ email }); // Update variable name to User instead of user
   //if the user already exists, throw an error
   if (userExists) {
     res.status(400);
@@ -18,20 +18,21 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   //if the user does not exist, create a new user
-  const user = await User.create({
+  const newUser = await User.create({
+    // Update variable name to newUser instead of user
     name,
     email,
     password,
     pic,
   });
   //if the user is created, send the user data back to the frontend
-  if (user) {
+  if (newUser) {
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      isAdmin: newUser.isAdmin,
+      token: generateToken(newUser._id),
     });
   } else {
     //if the user is not created, throw an error
