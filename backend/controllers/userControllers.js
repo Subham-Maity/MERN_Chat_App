@@ -44,12 +44,9 @@ const registerUser = asyncHandler(async (req, res) => {
 //userRoutes.js -> authUser function
 
 const authUser = asyncHandler(async (req, res) => {
-  //We are gonna take the email and password from the request body
   const { email, password } = req.body;
-  //find the user exist in the database or not
   const user = await User.findOne({ email });
-  //if the user exists
-  if (user && ()) {
+  if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       name: user.name,
@@ -63,4 +60,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = registerUser;
+module.exports = { registerUser, authUser };
