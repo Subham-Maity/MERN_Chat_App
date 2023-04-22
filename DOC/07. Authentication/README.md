@@ -1,4 +1,3 @@
-
 ## Authentication
 
 ### Json Web Token
@@ -245,4 +244,231 @@ module.exports = router;
 ```
 
 - Now check your database you will see the user is created in the database (MongoDB Atlas -> Browse Collections)
+
+```
+{"_id":{"$oid":"6443a62d373fe47e47fc7961"},
+"name":"Subham Maity",
+"email":"subham@codexam.com",
+"password":"123456",
+"pic":"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+"isAdmin":false,"__v":{"$numberInt":"0"}}
+```
+
+#### Part 3 ( authUser function )
+
+- `backend/routes/userRoutes.js`
+
+```js
+router.post("/login", authUser);
+```
+
+- `backend/controllers/userControllers.js`
+
+```js
+//userRoutes.js -> authUser function
+
+const authUser = asyncHandler(async (req, res) => {
+  //We are gonna take the email and password from the request body
+  const { email, password } = req.body;
+  //find the user exist in the database or not
+  const user = await User.findOne({ email });
+  //if the user exists
+  if (user && ()) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
+```
+
+> Pending Secure password
+
+
+#### Part 4 ( Password Encryption )
+
+We don't wanna store the password in plain text in the database so we are gonna use `bcrypt` to encrypt the password.
+
+1. Install `bcryptjs` by running `npm i bcryptjs`
+2. `backend/models/userModel.js`
+
+```js
+userSchema.pre("save");
+```
+This means before saving the user to the database we are gonna run this function.
+
+
+- Now we are gonna create a function that will match the password that we have in the database with the password that we are passing in.
+
+```js
+userSchema.pre("save", async function (next) {
+  if (!this.isModified) {//if the password is not modified then we don't need to do anything
+    next();//move on to the next middleware or function if we don't use next() then it will be stuck here
+  }
+  //higher the number is, more secure the password is.
+  const salt = await bcrypt.genSalt(10);
+  //hashing the password
+  this.password = await bcrypt.hash(this.password, salt);
+});
+```
+
+- inside the `userControllers` we are created function where that will match the password that we have in the database with the password that we are passing in `if (user && (await user.matchPasswor(password)))``
+- for this we need to create a matchPassword function inside the `userModel.js` file
+
+```js
+// Controller -> userControlles->user.matchPasswor(password)
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  //This compares the password that we have in the database with the password that we are passing in
+  return await bcrypt.compare(enteredPassword, this.password); //this.password is the password that we have in the database and enteredPassword is the password that we are passing in the function
+};
+```
+
+`Entire userModel.js now `
+
+```js
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const userSchema = mongoose.Schema(
+  {
+    name: { type: "String", required: true },
+    email: { type: "String", unique: true, required: true },
+    password: { type: "String", required: true },
+    pic: {
+      type: "String",
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+// Controller -> userControlles->user.matchPasswor(password)
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// before saving the user to the database we are going to run this function.
+userSchema.pre("save", async function (next) {
+  if (!this.isModified) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
+```
+
+3. Now we are gonna import authUser in userRoutes.js
+
+```js
+const { registerUser, authUser } = require("../controllers/userControllers");
+router.post("/login", authUser);
+```
+
+
+
+4.
+controllers -> userControlle.js 
+
+```js
+  if (user && (await user.matchPasswor(password))) {
+    ....
+
+    }
+module.exports = { registerUser, authUser };
+```
+
+`Entire userController.js now `
+```
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
+const generateToken = require("../config/generateToken");
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password, pic } = req.body;
+
+  //if any of the fields are empty, throw an error
+  if (!name || !email || !password) {
+    res.status(400);
+    throw new Error("Please fill all the fields");
+  }
+
+  const userExists = await User.findOne({ email }); // Update variable name to User instead of user
+  //if the user already exists, throw an error
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  //if the user does not exist, create a new user
+  const newUser = await User.create({
+    // Update variable name to newUser instead of user
+    name,
+    email,
+    password,
+    pic,
+  });
+  //if the user is created, send the user data back to the frontend
+  if (newUser) {
+    res.status(201).json({
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      pic: newUser.pic,
+      token: generateToken(newUser._id),
+    });
+  } else {
+    //if the user is not created, throw an error
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
+//userRoutes.js -> authUser function
+
+const authUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (user && (await user.matchPasswor(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
+
+module.exports = { registerUser, authUser };
+```
+5. Now test the password Encryption in postman
+
+![image](https://user-images.githubusercontent.com/97989643/233776299-14a5d3cf-1c97-4782-ad10-e6cb99c0e23a.png)
+
+
+
+
+
+#### Part 5 ( Let's check login -> postman)
+
+![image](https://user-images.githubusercontent.com/97989643/233776706-8e72e267-0b4d-45bb-a022-d61334128cec.png)
+
 
