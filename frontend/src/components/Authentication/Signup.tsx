@@ -4,17 +4,82 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { InputGroup, InputRightElement } from "@chakra-ui/input";
 import React, { useState } from "react";
 import styles from "./Signup.module.css";
+import { useToast } from "@chakra-ui/react";
 
 const Signup = () => {
+  // Access environment variables
+  const cloudinaryUploadPreset =
+    process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "";
+  const cloudinaryCloudName =
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY ?? "";
   const [show, setShow] = useState(false); //data type as boolean
   const [name, setName] = useState<string>(""); //data type as string
   const [email, setEmail] = useState<string>("");
   const [confirmpassword, setConfirmpassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pic, setPic] = useState();
+  const [picLoading, setPicLoading] = useState(false);
+  const toast = useToast();
+  const variants = ["solid", "subtle", "left-accent", "top-accent"];
+  const positions = [
+    "top",
+    "top-right",
+    "top-left",
+    "bottom",
+    "bottom-right",
+    "bottom-left",
+  ];
   const handleClick = () => setShow(!show);
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {};
-  const postDetails = (pics: FileList | null) => {}; //We will change it future ❗
+  const submitForm = async (e: React.FormEvent) => {};
+  const postDetails = (pics: File | undefined) => {
+    setPicLoading(true);
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      return;
+    }
+    console.log(pics);
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", cloudinaryUploadPreset);
+      data.append("cloud_name", cloudinaryCloudName);
+      fetch(
+        `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`,
+        {
+          method: "post",
+          body: data,
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+          console.log(data.url.toString());
+          setPicLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setPicLoading(false);
+        });
+    } else {
+      toast({
+        title: "Please Select an Image!",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setPicLoading(false);
+      return;
+    }
+  };
+
   return (
     <VStack spacing="5px" color="gray.700">
       {/*//Name of the user*/}
@@ -115,6 +180,7 @@ const Signup = () => {
               fontFamily: "Helvetica Neue",
               fontSize: 16,
               fontWeight: "bold",
+
               letterSpacing: "0.5px",
             }}
             className="text-transparent tex bg-clip-text bg-gradient-to-l from-slate-500 via-red-800 to-purple-300  pl-2 mt-2"
@@ -172,16 +238,21 @@ const Signup = () => {
             accept="image/*"
             className={`${styles.input} input`}
             placeholder="Upload Profile Pictur🗝️"
-            //We will change it future ❗
             onChange={(e) => {
               if (e.target.files && e.target.files.length > 0) {
-                postDetails(e.target.files);
+                postDetails(e.target.files[0]);
               }
             }}
           />
         </InputGroup>
       </div>
-      <Button colorScheme="blue" width="100%" style={{ marginTop: 15 }}>
+      <Button
+        colorScheme="blue"
+        width="100%"
+        style={{ marginTop: 15 }}
+        onClick={submitForm}
+        isLoading={picLoading}
+      >
         Sign Up
       </Button>
     </VStack>
