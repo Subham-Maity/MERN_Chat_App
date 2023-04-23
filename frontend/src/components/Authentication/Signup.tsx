@@ -5,6 +5,8 @@ import { InputGroup, InputRightElement } from "@chakra-ui/input";
 import React, { useState } from "react";
 import styles from "./Signup.module.css";
 import { useToast } from "@chakra-ui/react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const Signup = () => {
   // Access environment variables
@@ -12,7 +14,6 @@ const Signup = () => {
     process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "";
   const cloudinaryCloudName =
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY ?? "";
   const [show, setShow] = useState(false); //data type as boolean
   const [name, setName] = useState<string>(""); //data type as string
   const [email, setEmail] = useState<string>("");
@@ -21,17 +22,79 @@ const Signup = () => {
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
   const toast = useToast();
-  const variants = ["solid", "subtle", "left-accent", "top-accent"];
-  const positions = [
-    "top",
-    "top-right",
-    "top-left",
-    "bottom",
-    "bottom-right",
-    "bottom-left",
-  ];
+  const router = useRouter();
+
   const handleClick = () => setShow(!show);
-  const submitForm = async (e: React.FormEvent) => {};
+  const submitHandler = async () => {
+    setPicLoading(true);
+    if (!name || !email || !password || !confirmpassword) {
+      toast({
+        title: "Please Fill All Fields",
+        status: "warning",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setPicLoading(false);
+      return;
+    }
+    if (password !== confirmpassword) {
+      toast({
+        title: "Passwords do not match",
+        status: "warning",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      return;
+    }
+    console.log(name, email, password, pic);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/user",
+        {
+          name,
+          email,
+          password,
+          pic,
+        },
+        config
+      );
+      console.log(data);
+      toast({
+        title: "Account Created Successfully!",
+        status: "success",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
+      router.push("/chats");
+    } catch (error: any) {
+      // add type annotation here
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        status: "error",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setPicLoading(false);
+    }
+  };
+
+  //pic upload - cloudinary (profile pic)
   const postDetails = (pics: File | undefined) => {
     setPicLoading(true);
     if (pics === undefined) {
@@ -250,7 +313,7 @@ const Signup = () => {
         colorScheme="blue"
         width="100%"
         style={{ marginTop: 15 }}
-        onClick={submitForm}
+        onClick={submitHandler}
         isLoading={picLoading}
       >
         Sign Up
