@@ -14,12 +14,12 @@ const Signup = () => {
     process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "";
   const cloudinaryCloudName =
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "";
-  const [show, setShow] = useState(false); //data type as boolean
-  const [name, setName] = useState<string>(""); //data type as string
-  const [email, setEmail] = useState<string>("");
-  const [confirmpassword, setConfirmpassword] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [pic, setPic] = useState();
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [profilePic, setPic] = useState("");
   const [picLoading, setPicLoading] = useState(false);
   const toast = useToast();
   const router = useRouter();
@@ -50,7 +50,7 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    console.log(name, email, password, profilePic);
     try {
       const config = {
         headers: {
@@ -58,12 +58,12 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "/api/user",
+        "http://localhost:5000/api/user",
         {
           name,
           email,
           password,
-          pic,
+          profilePic,
         },
         config
       );
@@ -82,7 +82,7 @@ const Signup = () => {
     } catch (error: any) {
       // add type annotation here
       toast({
-        title: "Error",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         variant: "left-accent",
@@ -94,8 +94,9 @@ const Signup = () => {
     }
   };
 
-  //pic upload - cloudinary (profile pic)
+  //profilePic upload - cloudinary (profile profilePic)
   const postDetails = (pics: File | undefined) => {
+    // <----  here or pics: any
     setPicLoading(true);
     if (pics === undefined) {
       toast({
@@ -280,7 +281,7 @@ const Signup = () => {
       {/*//Profile picture of the user*/}
       <div className="mt-18"></div>
       <div className={styles.inputContainer}>
-        <FormControl id="pic" isRequired>
+        <FormControl id="profilePic" isRequired>
           <FormLabel
             style={{
               opacity: 0.2,
