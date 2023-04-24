@@ -34,7 +34,7 @@ const Login = () => {
           </FormLabel>
         </FormControl>
         <input
-          id={styles.inputField}
+          id={styles.login_name}
           type="email"
           required
           placeholder="Now Enter Your Email ✨"
@@ -61,7 +61,7 @@ const Login = () => {
         </FormControl>
         <InputGroup>
           <input
-            id={styles.inputField}
+            id={styles.login_password}
             type={show ? "text" : "password"}
             required
             className={`${styles.input} input`}

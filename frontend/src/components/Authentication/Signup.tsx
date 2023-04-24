@@ -149,7 +149,7 @@ const Signup = () => {
       {/*//Name of the user*/}
       <div className={styles.inputContainer} id="first-name">
         <input
-          id={styles.inputField}
+          id={styles.signup_name}
           type="text"
           required
           placeholder="What's should we call you? 🙂"
@@ -183,7 +183,7 @@ const Signup = () => {
           </FormLabel>
         </FormControl>
         <input
-          id={styles.inputField}
+          id={styles.signup_email}
           type="email"
           required
           placeholder="Now Enter Your Email ✨"
@@ -210,7 +210,7 @@ const Signup = () => {
         </FormControl>
         <InputGroup>
           <input
-            id={styles.inputField}
+            id={styles.signup_password}
             type={show ? "text" : "password"}
             required
             className={`${styles.input} input`}
@@ -254,7 +254,7 @@ const Signup = () => {
         </FormControl>
         <InputGroup>
           <input
-            id={styles.inputField}
+            id={styles.signup_confirm_password}
             type={show ? "text" : "password"}
             required
             className={`${styles.input} input`}
