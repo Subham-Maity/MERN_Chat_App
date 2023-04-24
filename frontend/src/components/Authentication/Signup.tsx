@@ -78,7 +78,7 @@ const Signup = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      router.push("/chats");
+      await router.push("/chats");
     } catch (error: any) {
       // add type annotation here
       toast({
