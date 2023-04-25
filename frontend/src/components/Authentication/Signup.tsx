@@ -32,7 +32,7 @@ const Signup = () => {
         title: "Please Fill All Fields",
         status: "warning",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });
@@ -44,7 +44,7 @@ const Signup = () => {
         title: "Passwords do not match",
         status: "warning",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });
@@ -72,7 +72,7 @@ const Signup = () => {
         title: "Account Created Successfully!",
         status: "success",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });
@@ -86,7 +86,7 @@ const Signup = () => {
         description: error.response.data.message,
         status: "error",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });
@@ -102,7 +102,7 @@ const Signup = () => {
       toast({
         title: "Please Select an Image!",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });
@@ -135,7 +135,7 @@ const Signup = () => {
       toast({
         title: "Please Select an Image!",
         variant: "left-accent",
-        duration: 5000,
+        duration: 8000,
         isClosable: true,
         position: "top-right",
       });

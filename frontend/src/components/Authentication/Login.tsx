@@ -4,14 +4,75 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { InputGroup, InputRightElement } from "@chakra-ui/input";
 import React, { useState } from "react";
 import styles from "./Signup.module.css";
+import axios from "axios";
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const Login = () => {
-  const [show, setShow] = useState(false); //data type as boolean
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [profilePic, setPic] = useState("");
+  const [picLoading, setPicLoading] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
 
   const handleClick = () => setShow(!show);
-  const submitHandler = () => {};
+  const submitHandler = async () => {
+    setPicLoading(true);
+    if (!email || !password) {
+      toast({
+        title: "Please Fill All Fields",
+        status: "warning",
+        variant: "left-accent",
+        duration: 8000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setPicLoading(false);
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/user/login",
+        {
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+      toast({
+        title: "Account Login Successfully!",
+        status: "success",
+        variant: "left-accent",
+        duration: 8000,
+        isClosable: true,
+        position: "top-right",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
+      await router.push("/chats");
+    } catch (error: any) {
+      // add type annotation here
+      toast({
+        title: "Error Occurred!",
+        description: error.response.data.message,
+        status: "error",
+        variant: "left-accent",
+        duration: 8000,
+        isClosable: true,
+        position: "top-right",
+      });
+      setPicLoading(false);
+    }
+  };
 
   return (
     <VStack spacing="5px" color="gray.700">
@@ -85,7 +146,13 @@ const Login = () => {
           </InputRightElement>
         </InputGroup>
       </div>
-      <Button colorScheme="blue" width="100%" style={{ marginTop: 15 }}>
+      <Button
+        colorScheme="blue"
+        width="100%"
+        style={{ marginTop: 15 }}
+        onClick={submitHandler}
+        isLoading={picLoading}
+      >
         Login
       </Button>
       <Button
